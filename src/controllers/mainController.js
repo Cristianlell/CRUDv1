@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { resourceUsage } = require('process');
 
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
@@ -21,7 +22,16 @@ const controller = {
 		})
 	},
 	search: (req, res) => {
-		// Do the magic
+			
+		let busqueda = req.query.keywords;
+		let results = products.filter(product=> product.name.toLowerCase().trim().includes(busqueda.toLowerCase()))
+		return res.render('results',{
+			products,
+			results,
+			busqueda,
+			toThousand,
+			discount
+		})
 	},
 };
 
